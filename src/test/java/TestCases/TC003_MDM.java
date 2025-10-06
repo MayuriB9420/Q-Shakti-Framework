@@ -20,6 +20,7 @@ public class TC003_MDM extends BaseClass{
     	
         logger.info("===== Starting Upload Master Files Test =====");
         ExtentReportManager.logInfo("Upload Master Files Test started");
+        ExtentReportManager.logInfo("Upload Master");
 
         try {
             // Step 1: Login
