@@ -128,7 +128,6 @@ public class MDMPage extends BasePage {
 	            }
 
 	            // Unhide the hidden <input type="file">
-	            ((JavascriptExecutor) driver).executeScript("arguments[0].removeAttribute('hidden');", fileInput);
 
 	            // Now send the file path
 	            fileInput.sendKeys(file.getAbsolutePath());
@@ -140,52 +139,21 @@ public class MDMPage extends BasePage {
 	            return false;
 	        }
 	    }
-	    
-	     
-	    /*public void uploadFile(String relativePath) {
-	        String absolutePath = getAbsolutePath(relativePath);
-	        fileInput.sendKeys(absolutePath);
-	    }
-	    public String getToasterMessage() {
-	        try {
-	            String message = wait.until(ExpectedConditions.visibilityOf(toasterMessage)).getText();
-	            ExtentReportManager.test.info("Toaster message captured: " + message);
-	            return message;
-	        } catch (Exception e) {
-	            ExtentReportManager.test.fail("Failed to capture toaster message. Error: " + e.getMessage());
-	            return null;
-	        }}*/
-	    
-	    public String getToasterMessage() {
-	        try {
-	            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-	            WebElement toaster = wait.until(ExpectedConditions.visibilityOf(toasterMessage));
-	            String msg = toaster.getText().trim();
-	            
-	            // Wait until toaster disappears so next upload won't reuse the old one
-	            wait.until(ExpectedConditions.invisibilityOf(toaster));
-	            
-	            ExtentReportManager.logInfo("Toaster message: " + msg);
-	            return msg;
-	        } catch (Exception e) {
-	            ExtentReportManager.logInfo("No toaster appeared.");
-	            return null;
-	        }
-	    }
 
-	    
-	    private String getAbsolutePath(String relativePath) {
-	        File file = new File(System.getProperty("user.dir"), relativePath);
-	        return file.getAbsolutePath();
-	    }
-	    
-	    public void waitForToasterToDisappear() {
-	        try {
-	            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-	            wait.until(ExpectedConditions.invisibilityOf(toasterMessage));
-	        } catch (Exception e) {
-	            ExtentReportManager.logInfo("Toaster did not disappear within timeout, continuing...");
-	        }
-	    }
+		private String getAbsolutePath(String relativePath) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
+		public String getToasterMessage() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public void waitForToasterToDisappear() {
+			// TODO Auto-generated method stub
+			
+		}
+	    
 }
+	   
