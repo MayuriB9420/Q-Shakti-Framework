@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import Utilities.ExtentReportManager;
 
 	public class ManageAccessPage extends BasePage {
-	    WebDriver driver;
+	  
 	    public  Logger logger;
 	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -36,7 +36,7 @@ import Utilities.ExtentReportManager;
 	    }
 	    
 
-	    public class ScreenPermission {
+	    public static class ScreenPermission {
 	        private String screen;
 	        private String view;
 	        private String add;
@@ -64,6 +64,3 @@ import Utilities.ExtentReportManager;
 	    }
 
 	}
-
-
-
