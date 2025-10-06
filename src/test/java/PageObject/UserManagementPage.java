@@ -1,5 +1,9 @@
 package PageObject;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeoutException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -40,19 +44,19 @@ public class UserManagementPage extends BasePage{
     WebElement EmailField;
 
     //@FindBy(xpath = "//div[label[contains(text(),'Plant')]]//input")
-    @FindBy(xpath = "//input[@role='combobox' and @value='AMMUNITION FACTORY KHADKI']") 
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Plant')]/following::input[1]") 
     WebElement PlantField;
     
-    @FindBy(xpath = "//input[@label='Section']") 
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::input[1]") 
     WebElement SectionField;
     
-    @FindBy(xpath = "//input[@label='Operations']") 
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Operations')]/following::input[1]") 
     WebElement OperationsField;
     
-    @FindBy(xpath = "//input[@label='QC Machine']") 
+    @FindBy(xpath = "//label[contains(normalize-space(.),'QC Machine')]/following::input[1]") 
     WebElement QCmachineField;
     
-    @FindBy(xpath = "//input[@label='Assign Role']") 
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Assign Role')]/following::input[1]") 
     WebElement AssighnRoleField;
     
     @FindBy(xpath="//button[normalize-space()='SAVE']") 
@@ -113,37 +117,7 @@ public class UserManagementPage extends BasePage{
         ExtentReportManager.test.log(Status.INFO, "Selected from combo: " + value);
     }*/
     
- // ================== NEW Helper for Multi-Select ==================
-    private void selectFromMuiMultiSelect(String label, String... values) {
-        // Locate the input field (combobox) based on the label text
-        WebElement comboBox = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//label[contains(text(),'" + label + "')]/following::input[@role='combobox'][1]")
-        ));
-        comboBox.click();  // open dropdown
 
-        for (String value : values) {
-            String trimmed = value.trim();
-
-            // Handle "Select All"
-            if (trimmed.equalsIgnoreCase("Select All")) {
-                WebElement selectAllOption = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//li[normalize-space(text())='Select All']" +
-                             " | //li//span[normalize-space(text())='Select All']")
-                ));
-                selectAllOption.click();
-            } else {
-                // Handle normal items
-                WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//li[normalize-space(text())='" + trimmed + "']" +
-                             " | //li//span[normalize-space(text())='" + trimmed + "']")
-                ));
-                option.click();
-            }
-        }
-        
-        // optional: close dropdown
-        comboBox.sendKeys(Keys.ESCAPE);
-    }
 
     //Actions
     public void enterFirstName(String FirstName) {
@@ -166,60 +140,97 @@ public class UserManagementPage extends BasePage{
         ExtentReportManager.logInfo("Entered valid Email: " + Email);
     }
         
-   /* public void selectPlant(String plantName) {
-        // If default value is already present (read-only), skip
-        String currentValue = PlantField.getAttribute("value").trim();
-        if (!currentValue.equalsIgnoreCase(plantName)) {
-            selectFromCombo(PlantField, plantName);
-        }
-        ExtentReportManager.test.log(Status.INFO, "Plant Selected: " + plantName);
-    }*/
+    public void selectPlant1(String plantName) {
+      
+        PlantField.clear();
+        PlantField.sendKeys(plantName);
+
+        // Wait for dropdown to appear if needed (for MUI combobox)
+        // Press ENTER to select the first matching option
+        PlantField.sendKeys(Keys.ENTER);
+    }
+
+    public String getSelectedPlant() {
+        return (PlantField).getAttribute("value");
+    }
     
-    public void selectPlant(String plant) {
-        // Plant seems pre-filled, so probably no action needed
-        System.out.println("Plant defaulted as: " + plant);
-    }
+   /* public void selectSection(String sectionName) {
+        SectionField.clear();
+        SectionField.sendKeys(sectionName);
+        SectionField.sendKeys(Keys.ENTER);
+    }*/
 
-        // --- Dependent dropdowns ---
-    /*public void selectSection(String section) {
-        selectFromCombo(SectionField, section);
-    }
-
-    public void selectOperation(String operation) {
-        selectFromCombo(OperationsField, operation);
-    }
-
-    public void selectQcMachine(String machine) {
-        selectFromCombo(QCmachineField, machine);
+   /* public void selectPlant(String plantName) {
+        if (plantName != null && !plantName.trim().isEmpty()) {
+            String cleanPlant = plantName.replaceAll("\\s+", " ").replace("\n", "").trim();
+            selectDropdownByLabel("Plant", cleanPlant);
+        }
     }
 */
- // --- Section ---
-    
-    public void selectSection(String sectionData) {
-        if (sectionData != null && !sectionData.trim().isEmpty()) {
-            selectFromMuiMultiSelect("Sections", sectionData.split(","));
-            ExtentReportManager.logInfo("Selected Section: " + sectionData);
-        }
+    private void selectMUIComboBox(WebElement element, String value) {
+        element.clear();
+        element.sendKeys(value);
+        element.sendKeys(Keys.ENTER);
     }
 
+
+        public void selectSection(String sectionData) {
+        	
+        	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        	    // 1️⃣ Click the dropdown arrow to open
+        	    WebElement sectionArrow = driver.findElement(By.xpath(
+        	        "//label[contains(normalize-space(.),'Section')]/following::button[contains(@class,'MuiAutocomplete-popupIndicator')][1]"
+        	    ));
+        	    sectionArrow.click();
+
+        	    // 2️⃣ Wait for the listbox to appear
+        	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@role='listbox']")));
+
+        	    WebElement selectAll = wait.until(ExpectedConditions.elementToBeClickable(
+				    By.xpath("//ul[@role='listbox']//li//*[contains(normalize-space(.),'Select All')]")
+				));
+				selectAll.click();
+				return;
+        	}
+
+        
+
+
+
+    // Section
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::input[1]")
+    private WebElement sectionInput;
+
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::button[contains(@class,'MuiAutocomplete-popupIndicator')][1]")
+    private WebElement sectionArrow;
+
+
+  /*  public void selectSection(String sectionData) {
+        for (String section : cleanAndSplitValues(sectionData)) {
+            selectDropdownByLabel("Section", section);
+        }
+        ExtentReportManager.logInfo("Selected Section(s): " + sectionData);
+    }
+   
     // --- Operation ---
     public void selectOperation(String operationData) {
-        if (operationData != null && !operationData.trim().isEmpty()) {
-            selectFromMuiMultiSelect("Operations", operationData.split(","));
-            ExtentReportManager.logInfo("Selected Operation: " + operationData);
-            
+        for (String operation : cleanAndSplitValues(operationData)) {
+            selectDropdownByLabel("Operations", operation);
         }
+        ExtentReportManager.logInfo("Selected Operation(s): " + operationData);
+        
     }            
 
     // --- QC Machine ---
     public void selectQcMachine(String machineData) {
-        if (machineData != null && !machineData.trim().isEmpty()) {
-            selectFromMuiMultiSelect("Machines", machineData.split(","));
-            ExtentReportManager.logInfo("Selected Machine: " + machineData);
-
+        for (String machine : cleanAndSplitValues(machineData)) {
+            selectDropdownByLabel("QC Machine", machine);
         }
+        ExtentReportManager.logInfo("Selected Machine(s): " + machineData);
+
     }       
-    
+    */
     public void selectRole(String Role) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[text()='Role']/following::div[1]")));
         dropdown.click();
@@ -256,4 +267,3 @@ public class UserManagementPage extends BasePage{
     }
 
 }
-

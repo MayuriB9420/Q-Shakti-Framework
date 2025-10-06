@@ -29,7 +29,7 @@ public class RoleManagementPage extends BasePage {
 
     // Step 1: Open Add popup
     public void openAddButtonPopup() {
-        wait.until(ExpectedConditions.elementToBeClickable(AddButton)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(addRoleButton)).click();
     }
 
     // Step 2: Enter Role Data
@@ -53,7 +53,6 @@ public class RoleManagementPage extends BasePage {
     public void submitRole() {
         driver.findElement(submitButton).click();
     }*/
-
 
     // Full Add Role Flow
     public void addRole(String role, String description) throws InterruptedException {

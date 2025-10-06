@@ -15,8 +15,7 @@ public class TC004_UserManagement extends BaseClass {
 
     @Test(dataProvider = "CreateUserData", dataProviderClass = Utilities.DataProviders.class)
     public void testCreateUser(String FirstName, String LastName, String Phone, String Email,
-            String Plant, String[] Sections, String[] Operations,
-            String[]  Machines, String Role) {
+            String Plant, String Section, String Operation, String Machine, String Role) {
         try {
         	
         	// Step 1: Login
@@ -56,36 +55,30 @@ public class TC004_UserManagement extends BaseClass {
 
             userPage.enterEmail(Email);
             ExtentReportManager.logInfo("Entered Email: " + Email);
-            Thread.sleep(1000);
+            Thread.sleep(2000);
 
             // Plant must be selected first
-            //userPage.selectPlant(Plant);
-           // Thread.sleep(1000);
+            userPage.selectPlant1(Plant);
+            logger.info("Selected Section(s): " + Plant);
 
-           // Dependent dropdowns
-            for (String sec : Sections) {
-                userPage.selectSection(sec);
-                logger.info("Selected Section: " + sec);
-                ExtentReportManager.logInfo("Selected Section: " + Sections);
-                Thread.sleep(1000);
-            }
+            Thread.sleep(2000);
 
-            // Select multiple operations
-            for (String op : Operations) {
-                userPage.selectOperation(op);
-                logger.info("Selected Operation: " + op);
-                ExtentReportManager.logInfo("Selected Opeartions: " + Operations);
-                Thread.sleep(1000);
-            }
+            // Section, Operation, Machine (comma-separated strings)
+           userPage.selectSection(Section);
+            logger.info("Selected Section(s): " + Section);
+            ExtentReportManager.logInfo("Selected Section(s): " + Section);
+            Thread.sleep(1000);
+/*s
+            userPage.selectOperation(Operation);
+            logger.info("Selected Operation(s): " + Operation);
+            ExtentReportManager.logInfo("Selected Operation(s): " + Operation);
+            Thread.sleep(1000);
 
-            // Select multiple machines
-            for (String mac : Machines) {
-                userPage.selectQcMachine(mac);
-                logger.info("Selected Machine: " + mac);
-                ExtentReportManager.logInfo("Selected Machines: " + Machines);
-                Thread.sleep(1000);
-            }
-
+            userPage.selectQcMachine(Machine);
+            logger.info("Selected Machine(s): " + Machine);
+            ExtentReportManager.logInfo("Selected Machine(s): " + Machine);
+            Thread.sleep(1000);
+*/
             // Assign role
             userPage.selectRole(Role);
             ExtentReportManager.logInfo("Selected Role:"+Role);
@@ -112,4 +105,3 @@ public class TC004_UserManagement extends BaseClass {
         }
     }
 }
-
