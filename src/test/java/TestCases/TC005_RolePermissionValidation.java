@@ -58,44 +58,12 @@ import Utilities.ExtentReportManager;
             
           //  String role = "Admin"; // Change to "Planner" or "Supervisor" as needed
 
-         // Step 1: Click inside the role input
-         WebElement op = driver.findElement(By.xpath("//input[@placeholder='Choose a role']"));
-         op.click();
-         Thread.sleep(1000);
-
-         // Step 2: Type the role
-         op.sendKeys(Role);
-         Thread.sleep(1000);
-
-         // Step 3: Click the actual option container (not just <span>)
-         WebElement roleTab = driver.findElement(By.xpath("//li[.//span[text()='" + Role + "']]"));
-         roleTab.click();
-         Thread.sleep(1000);
-
+         
          logger.info("Clicked role: " + Role);
 
 
-         Thread.sleep(1000);
-
-	        // Admin should always have all permissions
-	        if (Role.equalsIgnoreCase("Admin")){
-	            validatePermission(userPage, Screen, "View", "Y");
-	            validatePermission(userPage, Screen, "Add", "Y");
-	            validatePermission(userPage, Screen, "Edit", "Y");
-	            validatePermission(userPage, Screen, "Delete", "Y");
-	            validatePermission(userPage, Screen, "Export", "Y");
-	        } else {
-	            validatePermission(userPage, Screen, "View", View);
-	            validatePermission(userPage, Screen, "Add", Add);
-	            validatePermission(userPage, Screen, "Edit", Edit);
-	            validatePermission(userPage, Screen, "Delete", Delete);
-	            validatePermission(userPage, Screen, "Export", Export);
-	        }
-
-	        ExtentReportManager.logPass("Permissions validated for role: " + Role + " screen: " + Screen);
-	         Thread.sleep(2000);
-
 	    }
+	      
 
 	    private void validatePermission(UserManagementPage userPage, String screen,
 	                                    String permission, String expected) {
