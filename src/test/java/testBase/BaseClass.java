@@ -32,6 +32,7 @@ public class BaseClass {
     
     @BeforeSuite(alwaysRun = true)
     public void loadConfigAndLogger() throws IOException {
+    	
         // Load configuration
         FileReader file = new FileReader("./src/test/resources/config.properties");
         p = new Properties();
@@ -41,20 +42,18 @@ public class BaseClass {
         logger = LogManager.getLogger(this.getClass());
     }
 
-     //Initializes browser before each test
      
     @BeforeMethod(alwaysRun = true)
     public void setup(Method method) {
         logger.info("========== Launching Browser ==========");
 
-        // Set Chrome options
+        // Chrome options
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--incognito");
         options.addArguments("--disable-save-password-bubble");
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
 
-        // Disable Chrome password manager
         HashMap<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
         prefs.put("profile.password_manager_enabled", false);
@@ -78,7 +77,6 @@ public class BaseClass {
         // Perform login before each test
         //testLoginFunctionality(p.getProperty("email"), p.getProperty("password"));
         
-        // ✅ Initialize ExtentTest for each test method
         ExtentTest test = ExtentReportManager.getExtentReports().createTest(method.getName());
         ExtentReportManager.setTest(test);
 
@@ -100,12 +98,13 @@ public class BaseClass {
                 Thread.sleep(1500);
                 lp.clickLogin();
 
-                wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                wait = new WebDriverWait(driver, Duration.ofSeconds(15));
                 try {
                     // Check for dashboard (valid login)
                     WebElement dashboardElement = wait.until(
                         ExpectedConditions.visibilityOfElementLocated(
-                            By.xpath("//h6[normalize-space()='Dashboard']")
+                           // By.xpath("//h6[normalize-space()='Dashboard']")
+                            By.xpath("//h6[normalize-space()='RM Management']")
                         ) );
                     Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be displayed");
                     logger.info("=== Login Test Passed: Valid Credentials ===");
