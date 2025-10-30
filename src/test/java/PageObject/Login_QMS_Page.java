@@ -8,10 +8,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Login_QMS_Page extends BasePage {
 	
+	public Login_QMS_Page(WebDriver driver) {
+		super(driver);
+		// TODO Auto-generated constructor stub
+	}
+
 	private WebDriverWait wait;
- public Login_QMS_Page(WebDriver driver) {
-	 super(driver);
-}
+ 
  
  @FindBy(id="email")
  WebElement email;

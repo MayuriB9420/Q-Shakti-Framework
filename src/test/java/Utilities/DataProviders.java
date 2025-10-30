@@ -10,6 +10,8 @@ import java.util.Map;
 import PageObject.ManageAccessPage;
 import PageObject.ManageAccessPage.ScreenPermission;
 import testBase.BaseClass;
+
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -145,4 +147,58 @@ public class DataProviders {
         return data;
     }*/
 
-}
+//        @DataProvider(name = "checklistData")
+//        public Object[][] getData() throws IOException {
+//        	String path = System.getProperty("user.dir") + "/TestData/ChecklistData_QMS.xlsx";
+//            FileInputStream fis = new FileInputStream(new File(path));
+//            Workbook workbook = new XSSFWorkbook(fis);
+//            Sheet sheet = workbook.getSheetAt(0);
+//
+//            int rows = sheet.getPhysicalNumberOfRows();
+//            int cols = sheet.getRow(0).getLastCellNum();
+//
+//            Object[][] data = new Object[rows - 1][cols];
+//
+//            for (int i = 1; i < rows; i++) {
+//                Row row = sheet.getRow(i);
+//                for (int j = 0; j < cols; j++) {
+//                    Cell cell = row.getCell(j);
+//                    data[i - 1][j] = cell != null ? cell.toString() : "";
+//                }
+//            }
+//
+//            workbook.close();
+//            fis.close();
+//            return data;
+//        }
+    
+    public class ChecklistData {
+        private final String characteristic;
+        private final String type;
+        private final String lsl;
+        private final String usl;
+        private final String frequency;
+        private final String sampleSize;
+        private final boolean isCtq;
+
+        public ChecklistData(String characteristic, String type, String lsl, String usl, String frequency, String sampleSize, boolean isCtq) {
+            this.characteristic = characteristic;
+            this.type = type;
+            this.lsl = lsl;
+            this.usl = usl;
+            this.frequency = frequency;
+            this.sampleSize = sampleSize;
+            this.isCtq = isCtq;
+        }
+
+        // Getters
+        public String getCharacteristic() { return characteristic; }
+        public String getType() { return type; }
+        public String getLsl() { return lsl; }
+        public String getUsl() { return usl; }
+        public String getFrequency() { return frequency; }
+        public String getSampleSize() { return sampleSize; }
+        public boolean isCtq() { return isCtq; }
+    }
+    
+    }
