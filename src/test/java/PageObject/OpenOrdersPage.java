@@ -51,7 +51,7 @@ public class OpenOrdersPage extends BasePage{
 	    WebElement fileInput;
 	    
 	    @FindBy(xpath ="//div[@class='Toastify__toast-body']/div[2]")
-	 		public  WebElement toasterMessage;
+	   WebElement toasterMessage;
 	 	    
 
 	    // Locators for the table headers
@@ -73,8 +73,7 @@ public class OpenOrdersPage extends BasePage{
 	        } catch (Exception e) {
 	            System.err.println(" Failed to click Upload button: " + e.getMessage());
 	        }
-	    }
-	    
+	    }  
 	    
 	    public void clickProductionPlannerTab() {
 	        try {
@@ -83,6 +82,7 @@ public class OpenOrdersPage extends BasePage{
 	            System.err.println(" Failed to click Production Planner Tab: " + e.getMessage());
 	        }
 	    }
+	    
 
 	    public void clickRMPlannerTab() {
 	        try {
@@ -128,7 +128,6 @@ public class OpenOrdersPage extends BasePage{
 	        }
 	    }
 	    
-	    
 	    public boolean uploadFile(String relativePath) {
 	        try {
 	            String absolutePath = getAbsolutePath(relativePath);
@@ -168,7 +167,6 @@ public class OpenOrdersPage extends BasePage{
 	                    wait.until(ExpectedConditions.invisibilityOf(toast));
 	                }
 	            }
-
 	            // Try normal click first
 	            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
 
@@ -176,7 +174,7 @@ public class OpenOrdersPage extends BasePage{
 	            // Fallback: click using JavaScript if toast or animation still blocks it
 	            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 	        } catch (Exception ex) {
-	            System.err.println("❌ Click failed: " + ex.getMessage());
+	            System.err.println("Click failed: " + ex.getMessage());
 	        }
 	    }
 	    
@@ -186,8 +184,8 @@ public class OpenOrdersPage extends BasePage{
 	            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 	            WebElement toaster = wait.until(ExpectedConditions.visibilityOf(toasterMessage));
 	            String msg = toaster.getText().trim();
-	            
-	            // Wait until toaster disappears so next upload won't reuse the old one
+	           
+	          // Wait until toaster disappears so next upload won't reuse the old one
 	            wait.until(ExpectedConditions.invisibilityOf(toaster));
 	            
 	            ExtentReportManager.logInfo("Toaster message: " + msg);
@@ -207,6 +205,7 @@ public class OpenOrdersPage extends BasePage{
 	            ExtentReportManager.logInfo("Toaster did not disappear within timeout, continuing...");
 	        }
 	    }
+	    
 	  /*  public int getRowCount() {
 	        return productionOrderRows.size();
 	    }

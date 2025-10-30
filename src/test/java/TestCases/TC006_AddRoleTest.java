@@ -33,15 +33,21 @@ public class TC006_AddRoleTest extends BaseClass {
             UserManagementPage userPage = new UserManagementPage(driver);
             userPage.navigateToRoleManagement();
             Thread.sleep(1000);
+            logger.info("Navigated to Role Management");
+            ExtentReportManager.logInfo("Navigated to Role Management");
             
             RoleManagementPage rolePage = new RoleManagementPage(driver);
             //rolePage.openAddButtonPopup();
-          
             // Click ADD Role button
             driver.findElement(By.xpath("//button[normalize-space()='Add Role']")).click();
             ExtentReportManager.logInfo("Clicked on ADD Role button");
             Thread.sleep(1000);
 
+            String Plant=p.getProperty("PlantName");
+            userPage.selectPlant(Plant);
+            logger.info("Selected Plant: " + Plant);
+            Thread.sleep(1000);
+            
             driver.findElement(By.xpath("//button[@class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary commonAdd css-sghohy-MuiButtonBase-root-MuiButton-root']")).click();
             ExtentReportManager.logInfo("Clicked on ADD button");
             Thread.sleep(1000);
@@ -56,10 +62,8 @@ public class TC006_AddRoleTest extends BaseClass {
             // Enter Description
             WebElement descInput = driver.findElement(By.xpath("//span[normalize-space(text())='Description']/ancestor::div[contains(@class,'MuiInputBase-root')]//input"));
             descInput.clear();
-            descInput.sendKeys(
-            		DESCRIPTION);
-            ExtentReportManager.logInfo("Entered Description: " + 
-            		DESCRIPTION);
+            descInput.sendKeys(DESCRIPTION);
+            ExtentReportManager.logInfo("Entered Description: " + DESCRIPTION);
             Thread.sleep(1000);
 
             // Click Submit
@@ -77,8 +81,9 @@ public class TC006_AddRoleTest extends BaseClass {
 
             Assert.assertTrue(newRoleRow.isDisplayed(), "Role not added in table");
             ExtentReportManager.logPass("Role successfully added and verified: " + ROLE);
+            Thread.sleep(1000);
             
-           /* // Click Edit (pencil icon) for this role
+           /* // Click Edit for this role
             WebElement editBtn = driver.findElement(By.xpath("//div[@role='rowgroup']//div[1]//div[5]//div[1]//button[1]"));
             editBtn.click();
             ExtentReportManager.logInfo("Clicked Edit for Role: " + role);
@@ -93,6 +98,7 @@ public class TC006_AddRoleTest extends BaseClass {
             editDescInput.clear();
             String updatedDescription = description + "_updated";
             editDescInput.sendKeys(updatedDescription);*/
+            
             
             rolePage.editRole(NewRoleName, 
             		NewDescription);

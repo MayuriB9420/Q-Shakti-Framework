@@ -40,7 +40,7 @@ public class ExtentReportManager implements ITestListener {
         testThread.set(test);
     }
     
-    // ✅ Get ExtentTest for current thread
+    // Get ExtentTest for current thread
     public static ExtentTest getTest() {
         return testThread.get();
     }

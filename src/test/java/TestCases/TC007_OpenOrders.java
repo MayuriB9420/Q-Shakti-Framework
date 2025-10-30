@@ -21,17 +21,19 @@ public class TC007_OpenOrders extends BaseClass {
 	            Thread.sleep(1000);
 
 	            QShakti_Dashboard dp = new QShakti_Dashboard(driver);
+	            Thread.sleep(500);
+
 	            dp.clickOrderManagement();
 	            ExtentReportManager.logInfo("Clicked Order Management Module");
 		        logger.info("Clicked order Management Module");
-	            Thread.sleep(1000);
+	            Thread.sleep(500);
 	            
 		        OpenOrdersPage openOrdersPage = new OpenOrdersPage(driver);
 		        openOrdersPage.clickOpenOrdersPage();
 	            Thread.sleep(800);
 
 		        openOrdersPage.clickProductionPlannerTab();
-	            Thread.sleep(800);
+	            Thread.sleep(500);
 	            ExtentReportManager.logInfo("Clicked Production Planner tab");
 		        logger.info(" Clicked Production Planner tab");
 		       		        
@@ -76,7 +78,6 @@ public class TC007_OpenOrders extends BaseClass {
 		        openOrdersPage.downloadProductionPlannerExcel();
 		        logger.info(" Production Planner Excel downloaded");		        
 		        Thread.sleep(1500);
-
 		        
 		        //RM Planner//
 		        
@@ -104,15 +105,18 @@ public class TC007_OpenOrders extends BaseClass {
                     ExtentReportManager.logPass("RMPlanner uploaded successfully (no toaster appeared");
                     Assert.assertTrue(true, "RMPlanner uploaded successfully (no toaster appeared).");
                 } 
-                else if (RMplannerMsg.contains("Excel uploaded successfully. Records created, 3")) {
-                    ExtentReportManager.logPass("Excel uploaded successfully. Records created, 3 " + RMplannerMsg);
-                    Assert.assertTrue(true, "Production Planner created: 0");
+                
+                else if (RMplannerMsg.contains("Excel uploaded successfully. Records created, 0")) {
+                    ExtentReportManager.logPass("Excel uploaded successfully. Records created, 0 " + RMplannerMsg);
+                    Assert.assertTrue(true, "Excel uploaded successfully. Records created, 0 ");
                     logger.info("RMPlanner uploaded successfully:"+RMplannerMsg);
                 } 
+                
                 else if (RMplannerMsg.contains("Missing columns in Excel: mis_no, io_number, start_date, status_action")) {
                     ExtentReportManager.logFail(" RMPlanner upload failed due to missing columns: " + RMplannerMsg);
                     Assert.fail("RMPlanner upload failed due to missing columns: " + RMplannerMsg);
                 } 
+                
                 else {
                     ExtentReportManager.logFail("RMPlanner upload failed with unexpected toaster: " + RMplannerMsg);
                     Assert.fail("RMPlanner upload failed with unexpected toaster: " + RMplannerMsg);

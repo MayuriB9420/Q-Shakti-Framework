@@ -1,17 +1,14 @@
 package PageObject;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import Utilities.ExtentReportManager;
-
 import java.time.Duration;
 
 public class RoleManagementPage extends BasePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+
+	private WebDriverWait wait;
 
     // Locators
     By addRoleButton = By.xpath("//button[normalize-space()='Add Role']");
@@ -21,18 +18,15 @@ public class RoleManagementPage extends BasePage {
     By submitButton = By.xpath("//button[normalize-space()='Submit']");
     By  cancelButton = By.xpath("//button[normalize-space()='Cancel']");
     
-
     public RoleManagementPage(WebDriver driver) {
     	super (driver);
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
-    // Step 1: Open Add popup
     public void openAddButtonPopup() {
         wait.until(ExpectedConditions.elementToBeClickable(addRoleButton)).click();
     }
 
-    // Step 2: Enter Role Data
     public void enterRoleDetails(String role, String description) throws InterruptedException {
     	((WebElement) nameField).clear();
         wait.until(ExpectedConditions.visibilityOfElementLocated((By) nameField)).sendKeys(role);
@@ -49,10 +43,9 @@ public class RoleManagementPage extends BasePage {
         Thread.sleep(1000);
     }
     
-  /*  // Step 3: Submit Role
     public void submitRole() {
         driver.findElement(submitButton).click();
-    }*/
+    }
 
     // Full Add Role Flow
     public void addRole(String role, String description) throws InterruptedException {
