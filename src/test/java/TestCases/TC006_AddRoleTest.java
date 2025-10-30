@@ -7,18 +7,19 @@ import org.testng.annotations.Test;
 import PageObject.QShakti_Dashboard;
 import PageObject.UserManagementPage;
 import PageObject.RoleManagementPage;
-import Utilities.DataProviders;
 import Utilities.ExtentReportManager;
 import testBase.BaseClass;
 
-public class AddRoleTest extends BaseClass {
+public class TC006_AddRoleTest extends BaseClass {
 
-    @Test(dataProvider = "rolesData", dataProviderClass = DataProviders.class)
-    public void testAddRole(String role, String description, String newRole, String newDesc) throws InterruptedException {
-        ExtentReportManager.logInfo("Starting test for Role: " + role);
+    @Test(dataProvider = "EditRoleData", dataProviderClass = Utilities.DataProviders.class)
+    public void testAddRole(String ROLE, String 
+    		DESCRIPTION, String NewRoleName, String 
+    		NewDescription) throws InterruptedException {
+        ExtentReportManager.logInfo("Starting test for Role: " + ROLE);
 
         try {
-        	// Step 1: Login
+        	//  Login
         	testLoginFunctionality(p.getProperty("email"), p.getProperty("password"));
             logger.info("Login successful");
             ExtentReportManager.logInfo("Login successful");
@@ -34,7 +35,7 @@ public class AddRoleTest extends BaseClass {
             Thread.sleep(1000);
             
             RoleManagementPage rolePage = new RoleManagementPage(driver);
-//rolePage.openAddButtonPopup();
+            //rolePage.openAddButtonPopup();
           
             // Click ADD Role button
             driver.findElement(By.xpath("//button[normalize-space()='Add Role']")).click();
@@ -48,32 +49,34 @@ public class AddRoleTest extends BaseClass {
             // Enter Role Name
             WebElement nameInput = driver.findElement(By.xpath("//span[normalize-space(text())='Name']/ancestor::div[contains(@class,'MuiInputBase-root')]//input"));
             nameInput.clear();
-            nameInput.sendKeys(role);
-            ExtentReportManager.logInfo("Entered Role: " + role);
+            nameInput.sendKeys(ROLE);
+            ExtentReportManager.logInfo("Entered Role: " + ROLE);
             Thread.sleep(1000);
 
             // Enter Description
             WebElement descInput = driver.findElement(By.xpath("//span[normalize-space(text())='Description']/ancestor::div[contains(@class,'MuiInputBase-root')]//input"));
             descInput.clear();
-            descInput.sendKeys(description);
-            ExtentReportManager.logInfo("Entered Description: " + description);
+            descInput.sendKeys(
+            		DESCRIPTION);
+            ExtentReportManager.logInfo("Entered Description: " + 
+            		DESCRIPTION);
             Thread.sleep(1000);
 
             // Click Submit
             driver.findElement(By.xpath("//button[normalize-space()='Submit']")).click();
             ExtentReportManager.logInfo("Clicked Submit button");
-
+            logger.info("Clicked submit Button");
             Thread.sleep(1000);
-            
-            
+              
             // Verify role added in table
             String tableXpath = String.format(
                     "//div[@class='MuiDataGrid-root MuiDataGrid-root--densityStandard MuiDataGrid-root--noToolbar MuiDataGrid-withBorderColor css-18zjnul-MuiDataGrid-root']",
-                    role, description);
+                    ROLE, 
+                    DESCRIPTION);
             WebElement newRoleRow = driver.findElement(By.xpath(tableXpath));
 
             Assert.assertTrue(newRoleRow.isDisplayed(), "Role not added in table");
-            ExtentReportManager.logPass("Role successfully added and verified: " + role);
+            ExtentReportManager.logPass("Role successfully added and verified: " + ROLE);
             
            /* // Click Edit (pencil icon) for this role
             WebElement editBtn = driver.findElement(By.xpath("//div[@role='rowgroup']//div[1]//div[5]//div[1]//button[1]"));
@@ -91,12 +94,13 @@ public class AddRoleTest extends BaseClass {
             String updatedDescription = description + "_updated";
             editDescInput.sendKeys(updatedDescription);*/
             
-            rolePage.editRole(newRole, newDesc);
-            ExtentReportManager.logPass("Edited role from " + role + " to " + newRole);
+            rolePage.editRole(NewRoleName, 
+            		NewDescription);
+            ExtentReportManager.logPass("Edited role from " + ROLE + " to " + NewRoleName);
             
 
         } catch (Exception e) {
-            ExtentReportManager.logFail("Test failed for Role: " + role + " | Error: " + e.getMessage());
+            ExtentReportManager.logFail("Test failed for Role: " + ROLE + " | Error: " + e.getMessage());
             throw e; 
         }
     }
