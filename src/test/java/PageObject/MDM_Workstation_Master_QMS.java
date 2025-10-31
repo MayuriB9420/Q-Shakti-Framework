@@ -40,8 +40,7 @@ public class MDM_Workstation_Master_QMS extends BasePage {
 	@FindBy(xpath = "//button[text()='Cancel']")
 	WebElement btnCancel;
 	
-	
-	//Action Methods
+	//Action Methodss
 	
 	public void uploadFile(String filePath) {
 	    WebElement fileUpload = driver.findElement(By.xpath("//input[@id='upload-input-0']"));
