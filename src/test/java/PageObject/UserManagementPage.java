@@ -1,27 +1,22 @@
 package PageObject;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import com.aventstack.extentreports.Status;
+//import com.aventstack.extentreports.Status;
 import Utilities.ExtentReportManager;
-
 
 public class UserManagementPage extends BasePage{
 	
-    WebDriver driver;
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     
     //Locators
-    
     @FindBy(xpath = "//span[normalize-space()='USER MANAGEMENT']")
     private WebElement userMangt;
     
@@ -30,6 +25,9 @@ public class UserManagementPage extends BasePage{
     
     @FindBy(xpath ="//button[normalize-space()='Create']") 
     WebElement createUserTab;
+    
+    @FindBy(xpath ="//input[@data-testid='custom-autocomplete-input']")
+    WebElement PlantDropdown;
 
     @FindBy(xpath = "//input[@name='first_name']") 
     WebElement FirstnameField;
@@ -42,7 +40,17 @@ public class UserManagementPage extends BasePage{
 
     @FindBy(xpath = "//input[@name='email']") 
     WebElement EmailField;
+    
+    @FindBy(xpath = "//input[@name='emp_id']")
+    WebElement EmployeeIdField;
 
+    // Section
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::input[1]")
+    private WebElement sectionInput;
+
+    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::button[contains(@class,'MuiAutocomplete-popupIndicator')][1]")
+    private WebElement sectionArrow;
+    
     //@FindBy(xpath = "//div[label[contains(text(),'Plant')]]//input")
     @FindBy(xpath = "//label[contains(normalize-space(.),'Plant')]/following::input[1]") 
     WebElement PlantField;
@@ -64,6 +72,12 @@ public class UserManagementPage extends BasePage{
 
     @FindBy(xpath ="//div[@class='Toastify__toast-body']/div[2]")
 	public  WebElement toasterMessage;
+    
+    @FindBy(xpath = "//button[@aria-label='Download User Management Report.pdf']")
+    private WebElement UserMgtReportDownloadPDF;
+
+    @FindBy(xpath = "//button[@aria-label='Download User Management Report.xlsx']")
+    private WebElement UserMgtReportDownloadEXCEL;
     
 
     public UserManagementPage(WebDriver driver) {
@@ -87,6 +101,47 @@ public class UserManagementPage extends BasePage{
         ExtentReportManager.logInfo("Opened Create User form");
     }
     
+    public void downloadUserMgtPDF() {
+        try {
+         safeClick(UserMgtReportDownloadPDF);
+        
+        } catch (Exception e) {
+            System.err.println("Failed to click User Mgt PDF: " + e.getMessage());
+        }
+    }
+
+    /** Click on RM Planner Excel Download */
+    public void downloadUserMgtExcel() {
+        try {
+        safeClick(UserMgtReportDownloadEXCEL);
+        } catch (Exception e) {
+            System.err.println("Failed to click User Mgt Excel: " + e.getMessage());
+        }
+    }
+    
+    
+    private void safeClick(WebElement element) {
+        try {
+            // Wait for Toast to disappear
+    	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            List<WebElement> toasts = driver.findElements(By.xpath("//div[contains(@class,'Toastify__toast-container')]"));
+            if (!toasts.isEmpty()) {
+                for (WebElement toast : toasts) {
+                    wait.until(ExpectedConditions.invisibilityOf(toast));
+                }
+            }
+            // Try normal click first
+            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+
+        } catch (ElementClickInterceptedException e) {
+            // Fallback: click using JavaScript if toast or animation still blocks it
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        } catch (Exception ex) {
+            System.err.println("Click failed: " + ex.getMessage());
+        }
+    }
+    
+    
     public void selectRole1(String role) throws InterruptedException {
         // Example: selecting a role from dropdown/table
         By roleDropdown = By.xpath("//button[@title='Open']//*[name()='svg']");
@@ -102,21 +157,6 @@ public class UserManagementPage extends BasePage{
                        "/following-sibling::td//input[@aria-label='" + permission + "']";
         return driver.findElement(By.xpath(xpath)).isSelected();
     }
-
- /* ---------- Reusable method for MUI combobox ----------
-    private void selectFromCombo(WebElement comboInput, String value) {
-        wait.until(ExpectedConditions.elementToBeClickable(comboInput)).click();
-        comboInput.clear();
-        comboInput.sendKeys(value);
-
-        // wait for option and select
-        WebElement option = wait.until(ExpectedConditions
-            .visibilityOfElementLocated(By.xpath("//li[contains(text(),'" + value + "')]")));
-        option.click();
-
-        ExtentReportManager.test.log(Status.INFO, "Selected from combo: " + value);
-    }*/
-    
 
 
     //Actions
@@ -139,105 +179,134 @@ public class UserManagementPage extends BasePage{
         wait.until(ExpectedConditions.visibilityOf(EmailField)).sendKeys(Email);
         ExtentReportManager.logInfo("Entered valid Email: " + Email);
     }
-        
-    public void selectPlant1(String plantName) {
-      
-        PlantField.clear();
-        PlantField.sendKeys(plantName);
-
-        // Wait for dropdown to appear if needed (for MUI combobox)
-        // Press ENTER to select the first matching option
-        PlantField.sendKeys(Keys.ENTER);
-    }
-
-    public String getSelectedPlant() {
-        return (PlantField).getAttribute("value");
+    
+    public void enterEmpId(String EmpId) {
+        wait.until(ExpectedConditions.visibilityOf(EmployeeIdField)).sendKeys(EmpId);
+        ExtentReportManager.logInfo("Entered valid EmployeeIdField: " + EmpId);
     }
     
-   /* public void selectSection(String sectionName) {
-        SectionField.clear();
-        SectionField.sendKeys(sectionName);
-        SectionField.sendKeys(Keys.ENTER);
-    }*/
+        
 
-   /* public void selectPlant(String plantName) {
-        if (plantName != null && !plantName.trim().isEmpty()) {
-            String cleanPlant = plantName.replaceAll("\\s+", " ").replace("\n", "").trim();
-            selectDropdownByLabel("Plant", cleanPlant);
+    public void selectSection(List<String> sectionData) throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        for (String se : sectionData) {
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(sectionInput));
+
+                sectionInput.click();
+                Thread.sleep(800);
+
+                sectionInput.sendKeys(se);
+                Thread.sleep(1000);
+
+                WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//ul[@role='listbox']//li[normalize-space()='" + se+ "']")
+                ));
+                option.click();
+                Thread.sleep(800);
+
+                System.out.println(" Selected: " + se);
+            } catch (Exception e) {
+                System.out.println(" Option not found or not clickable for: " + se);
+            }
+            
         }
+        
+        sectionInput.click();        
     }
-*/
-    private void selectMUIComboBox(WebElement element, String value) {
-        element.clear();
-        element.sendKeys(value);
-        element.sendKeys(Keys.ENTER);
-    }
+    
+    
+    public void selectOperation(List<String> operationData) throws InterruptedException {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+		for (String op : operationData) {
+			try {
+				wait.until(ExpectedConditions.elementToBeClickable(OperationsField));
 
-        public void selectSection(String sectionData) {
-        	
-        	    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				OperationsField.click();
+				Thread.sleep(800);
 
-        	    // 1️⃣ Click the dropdown arrow to open
-        	    WebElement sectionArrow = driver.findElement(By.xpath(
-        	        "//label[contains(normalize-space(.),'Section')]/following::button[contains(@class,'MuiAutocomplete-popupIndicator')][1]"
-        	    ));
-        	    sectionArrow.click();
+				OperationsField.sendKeys(op);
+				Thread.sleep(1000);
 
-        	    // 2️⃣ Wait for the listbox to appear
-        	    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ul[@role='listbox']")));
-
-        	    WebElement selectAll = wait.until(ExpectedConditions.elementToBeClickable(
-				    By.xpath("//ul[@role='listbox']//li//*[contains(normalize-space(.),'Select All')]")
+				WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+					By.xpath("//ul[@role='listbox']//li[normalize-space()='" + op + "']")
 				));
-				selectAll.click();
-				return;
-        	}
+				option.click();
+				Thread.sleep(800);
 
-        
-
-
-
-    // Section
-    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::input[1]")
-    private WebElement sectionInput;
-
-    @FindBy(xpath = "//label[contains(normalize-space(.),'Section')]/following::button[contains(@class,'MuiAutocomplete-popupIndicator')][1]")
-    private WebElement sectionArrow;
-
-
-  /*  public void selectSection(String sectionData) {
-        for (String section : cleanAndSplitValues(sectionData)) {
-            selectDropdownByLabel("Section", section);
-        }
-        ExtentReportManager.logInfo("Selected Section(s): " + sectionData);
+				System.out.println(" Selected: " + op);
+			} catch (Exception e) {
+				System.out.println(" Option not found or not clickable for: " + op);
+			}
+		}
+		OperationsField.click();
+	}
+    
+    public void selectQCMachine(List<String> machineData) throws InterruptedException {
+    			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    			
+    	
+    			for (String mc : machineData) {
+					try {
+						wait.until(ExpectedConditions.elementToBeClickable(QCmachineField));
+		
+						QCmachineField.click();
+						Thread.sleep(800);
+		
+						QCmachineField.sendKeys(mc);
+						Thread.sleep(1000);
+		
+						WebElement option = wait.until(ExpectedConditions.elementToBeClickable(
+							By.xpath("//ul[@role='listbox']//li[normalize-space()='" + mc + "']")
+						));
+						option.click();
+						Thread.sleep(800);
+		
+						System.out.println(" Selected: " + mc);
+					} catch (Exception e) {
+						System.out.println(" Option not found or not clickable for: " + mc);
+					}
+				}	
+    	QCmachineField.click();
     }
-   
-    // --- Operation ---
-    public void selectOperation(String operationData) {
-        for (String operation : cleanAndSplitValues(operationData)) {
-            selectDropdownByLabel("Operations", operation);
-        }
-        ExtentReportManager.logInfo("Selected Operation(s): " + operationData);
-        
-    }            
-
-    // --- QC Machine ---
-    public void selectQcMachine(String machineData) {
-        for (String machine : cleanAndSplitValues(machineData)) {
-            selectDropdownByLabel("QC Machine", machine);
-        }
-        ExtentReportManager.logInfo("Selected Machine(s): " + machineData);
-
-    }       
-    */
-    public void selectRole(String Role) {
+    
+   /* public void selectRole(String Role) {
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[text()='Role']/following::div[1]")));
         dropdown.click();
         WebElement option = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[text()='" + Role.trim() + "']")));
         option.click();
-    }
+    }*/
+    
+    public void selectRole(String Role) {
+ 	   
+        wait.until(ExpectedConditions.elementToBeClickable(AssighnRoleField)).click();
+        
+        AssighnRoleField.clear();
+        AssighnRoleField.sendKeys(Role);
 
+        WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//li[contains(@role,'option') and normalize-space()='" + Role + "']")));
+
+        option.click();
+        wait.until(ExpectedConditions.elementToBeClickable(SaveButton));
+     }
+
+    public void selectPlant(String Plant) {
+  	   
+        wait.until(ExpectedConditions.elementToBeClickable(PlantDropdown)).click();
+        
+        PlantDropdown.clear();
+        PlantDropdown.sendKeys(Plant);
+
+        WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(
+            By.xpath("//li[contains(@role,'option') and normalize-space()='" + Plant + "']")));
+
+        option.click();
+     }
+
+    
     public void clickSave() {
         wait.until(ExpectedConditions.elementToBeClickable(SaveButton)).click();
         ExtentReportManager.logInfo("Clicked Save button");

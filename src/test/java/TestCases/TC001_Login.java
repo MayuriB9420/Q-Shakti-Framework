@@ -1,14 +1,11 @@
 package TestCases;
 
 import org.testng.Assert;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-
 import PageObject.LoginPage;
 import testBase.BaseClass;
 //import Utilities.ScreenshotUtil;
 //import Utilities.ExtentReportManager;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,9 +30,9 @@ public class TC001_Login extends BaseClass {
             Assert.assertEquals(initialType, "password", "Password should be hidden initially");
 
             lp.setPassword(p.getProperty("password"));
-            Thread.sleep(1000);
+            Thread.sleep(1500);
             lp.toggleShowPassword();
-            Thread.sleep(1000);
+            Thread.sleep(1500);
 
             String toggledType = passwordInput.getAttribute("type");
             Assert.assertEquals(toggledType, "text", "Password should be visible after toggle");
@@ -49,9 +46,10 @@ public class TC001_Login extends BaseClass {
     }
     
     @Test(priority = 2)
-    public void doLogin()
+    public void doLogin() throws InterruptedException
     {
     	testLoginFunctionality(p.getProperty("email"), p.getProperty("password"));
+    	Thread.sleep(1500);
     }
 
 
@@ -96,16 +94,17 @@ public class TC001_Login extends BaseClass {
                     ExpectedConditions.presenceOfElementLocated(By.xpath("//input[@name='rememberMe']"))
             );
               
-
-            Thread.sleep(1500);
+            Thread.sleep(1000);
             Assert.assertFalse(checkboxInput.isSelected(), "Checkbox should be unchecked by default");
             logger.info("Default state verified: Remember Me is unchecked");
             
-            Thread.sleep(1500);
+            Thread.sleep(1000);
 
             if (!checkboxInput.isDisplayed() || !checkboxInput.isEnabled()) {
                 WebElement label = driver.findElement(By.xpath("//label[contains(@class,'MuiFormControlLabel-root')]"));
                 label.click();
+                Thread.sleep(1000);
+
             } else {
                 checkboxInput.click();
                 Thread.sleep(1500);

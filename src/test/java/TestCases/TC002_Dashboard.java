@@ -1,6 +1,4 @@
 package TestCases;
-
-import PageObject.LoginPage;
 import PageObject.QShakti_Dashboard;
 import org.testng.annotations.Test;
 import testBase.BaseClass;
