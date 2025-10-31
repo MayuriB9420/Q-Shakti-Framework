@@ -1,16 +1,13 @@
 package TestCases;
+
 import PageObject.MDMPage ;
 import PageObject.QShakti_Dashboard;
 import Utilities.ExtentReportManager;
-import com.aventstack.extentreports.Status;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import Utilities.ScreenshotUtil;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import testBase.BaseClass;
-import java.time.Duration;
+
 
 @Listeners(Utilities.ExtentReportManager.class)
 public class TC003_MDM extends BaseClass{
@@ -32,7 +29,6 @@ public class TC003_MDM extends BaseClass{
 	        logger.info("Clicked Master Data Management");
 
             MDMPage uploadPage = new MDMPage (driver);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             
             uploadPage.openUploadFileMenu();
             // Step 2: Upload Plant Master
@@ -64,7 +60,7 @@ public class TC003_MDM extends BaseClass{
                     ExtentReportManager.logFail(" Master upload failed with unexpected toaster: " + plantMsg);
                     Assert.fail("Plant Master upload failed with unexpected toaster: " + plantMsg);
                 }
-                //  Ensure old toaster doesn’t affect next step
+
                 uploadPage.waitForToasterToDisappear();
 
             } catch (AssertionError ae) {
@@ -81,7 +77,7 @@ public class TC003_MDM extends BaseClass{
             try {
             	uploadPage.clickBuildingSection();
                 boolean uploaded = uploadPage.uploadFile(p.getProperty("BuildingSectionFile"));
-
+                
                 if (!uploaded) {
                     ExtentReportManager.logFail("BuildingSection Master upload failed: File could not be uploaded.");
                     Assert.fail("BuildingSection Master upload failed: File could not be uploaded.");
@@ -163,6 +159,7 @@ public class TC003_MDM extends BaseClass{
                 }
                 
                 uploadPage.waitForToasterToDisappear();
+                
             } catch (AssertionError ae) {
                 ExtentReportManager.logFail("MachineMaster validation failed. Error: " + ae.getMessage());
                 throw ae;
@@ -189,6 +186,7 @@ public class TC003_MDM extends BaseClass{
                     ExtentReportManager.logPass("ItemMaster uploaded successfully (no toaster appeared).");
                     Assert.assertTrue(true, "ItemMaster uploaded successfully (no toaster appeared).");
                 } 
+                
                 else if (MachineMsg1.contains("Items created: 0")|| MachineMsg1.contains("Duplicates: 5")|| MachineMsg1.contains("Invalid rows: 0")) {
                     // Success toaster
                     ExtentReportManager.logPass("ItemMaster uploaded successfully: " + MachineMsg1);
@@ -196,6 +194,7 @@ public class TC003_MDM extends BaseClass{
                     logger.info("ItemMaster uploaded successfully:"+MachineMsg1);
 
                 } 
+                
                 else if (MachineMsg1.contains("Missing columns: item_description, unit, item_type")) {
                     // Failure toaster
                     ExtentReportManager.logFail("ItemMaster Master upload failed due to missing columns: " + MachineMsg1);

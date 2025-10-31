@@ -10,10 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage extends BasePage{
-    WebDriver driver;
+ //   WebDriver driver;
     private WebDriverWait wait;
 
-    // PageFactory Locators
+    //  Locators
     @FindBy(xpath = "//input[@id='email']")
     private WebElement usernameField;
 

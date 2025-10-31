@@ -1,7 +1,6 @@
 package PageObject;
 
 import java.time.Duration;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +11,6 @@ public class QShakti_Dashboard extends BasePage{
 
 	public QShakti_Dashboard(WebDriver driver) {
 		super(driver);
-		// TODO Auto-generated constructor stub
 	}
 	
 	    @FindBy(xpath = "//div[@class='MuiBox-root css-pwbuwj']")
@@ -61,13 +59,11 @@ public class QShakti_Dashboard extends BasePage{
         
         } catch (Exception e) {}
         }
-	    
-	    
+	     
 	    public void clickOrderManagement() {
 	        try {
 	            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-	            wait.until(ExpectedConditions.elementToBeClickable(orderManagement)).click();
-	           
+	            wait.until(ExpectedConditions.elementToBeClickable(orderManagement)).click();    
 	        
 	        } catch (Exception e) {}
 	        }
@@ -77,33 +73,30 @@ public class QShakti_Dashboard extends BasePage{
 		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		            wait.until(ExpectedConditions.elementToBeClickable(rmManagement)).click();
 		           
-		        
 		        } catch (Exception e) {}
 	    	  }
 	    
 	    public void clickInprocess() { 
 	    	  try {
 		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		            wait.until(ExpectedConditions.elementToBeClickable(inprocess)).click();
-		           
+		            wait.until(ExpectedConditions.elementToBeClickable(inprocess)).click();     
 		        
 		        } catch (Exception e) {}
 	    	  }
+	    
 	    public void clickFinalInspection() { 
 	    	  try {
 		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		            wait.until(ExpectedConditions.elementToBeClickable(finalInspection)).click();
 		           
-		        
 		        } catch (Exception e) {}
 	    	  }
+	    
 	    public void clickUserSecurity() {
 	    	  try {
 		            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		            wait.until(ExpectedConditions.elementToBeClickable(userSecurity)).click();
-		           
-		        
+		             
 		        } catch (Exception e) {}
 	    	  }
-
 }

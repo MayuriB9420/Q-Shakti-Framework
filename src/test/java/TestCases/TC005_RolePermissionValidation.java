@@ -3,12 +3,11 @@ package TestCases;
 import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.aventstack.extentreports.Status;
-import PageObject.ManageAccessPage;
+//import com.aventstack.extentreports.Status;
+//import PageObject.ManageAccessPage;
 import PageObject.QShakti_Dashboard;
 import PageObject.UserManagementPage;
 import testBase.BaseClass;
@@ -23,7 +22,7 @@ import Utilities.ExtentReportManager;
 	        logger.info("=== Validating Role: " + Role + " | Screen: " + Screen + " ===");
             wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	        
-	        	// Step 1: Login
+	        	//  Login
 	        	testLoginFunctionality(p.getProperty("email"), p.getProperty("password"));
 	            logger.info("Login successful");
 	            ExtentReportManager.logInfo("Login successful");
@@ -39,45 +38,32 @@ import Utilities.ExtentReportManager;
 	            logger.info("Clicked role Management");
 	            Thread.sleep(1500);
 
-	            ManageAccessPage map = new ManageAccessPage(driver);
+	          //  ManageAccessPage map = new ManageAccessPage(driver);
 	            driver.findElement(By.xpath("//button[normalize-space()='Manage Access']")).click();
 	           // map.ManageAccessButton();
                logger.info("Clicked manage aceess Management");
-	           Thread.sleep(1500); // wait for refresh
-		      /*  String role = "Admin"; // Change to "Planner" or "Supervisor" as needed
-		       
-			 WebElement op= driver.findElement(By.xpath("//input[@placeholder='Choose a role']"));
-			 op.sendKeys(role);
-			 Thread.sleep(1000);
-		        
-			 WebElement roleTab= driver.findElement(By.xpath("//span[contains(text(),'" + role + "')]"));
-			 roleTab.click();
-			   
-	        Thread.sleep(1000);
-            logger.info("Clicked admin");*/
-            
-          //  String role = "Admin"; // Change to "Planner" or "Supervisor" as needed
+	           Thread.sleep(1500);
+	           
+	          /* String Plant=p.getProperty("PlantName");
+	            userPage.selectPlant(Plant);
+	            logger.info("Selected Plant: " + Plant);
+	            Thread.sleep(1000);*/
 
-         // Step 1: Click inside the role input
          WebElement op = driver.findElement(By.xpath("//input[@placeholder='Choose a role']"));
          op.click();
          Thread.sleep(1000);
 
-         // Step 2: Type the role
          op.sendKeys(Role);
          Thread.sleep(1000);
 
-         // Step 3: Click the actual option container (not just <span>)
          WebElement roleTab = driver.findElement(By.xpath("//li[.//span[text()='" + Role + "']]"));
          roleTab.click();
          Thread.sleep(1000);
 
          logger.info("Clicked role: " + Role);
-
-
          Thread.sleep(1000);
 
-	        // Admin should always have all permissions
+	        // Admin have all permissions
 	        if (Role.equalsIgnoreCase("Admin")){
 	            validatePermission(userPage, Screen, "View", "Y");
 	            validatePermission(userPage, Screen, "Add", "Y");
@@ -94,7 +80,11 @@ import Utilities.ExtentReportManager;
 
 	        ExtentReportManager.logPass("Permissions validated for role: " + Role + " screen: " + Screen);
 	         Thread.sleep(2000);
-
+	         
+	       /*  map.submitRole1();
+	         Thread.sleep(2000);
+             logger.info("Clicked submit button");
+*/
 	    }
 
 	    private void validatePermission(UserManagementPage userPage, String screen,

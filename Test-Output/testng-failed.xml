@@ -3,15 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="TestCases.AddRoleTest">
+      <class name="TestCases.TC006_AddRoleTest">
         <methods>
           <include name="teardown"/>
           <include name="loadConfigAndLogger"/>
           <include name="generateReport"/>
           <include name="setup"/>
-          <include name="testAddRole"/>
+          <include name="testAddRole" invocation-numbers="0 1 2 3"/>
         </methods>
-      </class> <!-- TestCases.AddRoleTest -->
+      </class> <!-- TestCases.TC006_AddRoleTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
