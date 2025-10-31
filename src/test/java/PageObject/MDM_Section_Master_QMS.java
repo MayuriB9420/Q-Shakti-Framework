@@ -23,7 +23,7 @@ public class MDM_Section_Master_QMS extends BasePage {
 	@FindBy(xpath = "//input[@id='upload-input-1']") 
 	WebElement uploadFile;
 	
-	@FindBy(xpath = "//button[@id='download-template-btn-0']")
+	@FindBy(xpath = "//button[@id='download-template-btn-1']")
 	WebElement downloadTemplate;
 	
 	

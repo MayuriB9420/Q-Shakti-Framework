@@ -18,7 +18,7 @@ public class QMS_SCA_Checklist_Control_Plan_TC extends BaseClassQMS{
 	
 	@BeforeMethod(alwaysRun = true)
     public void setupTest() throws Exception {
-	testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
+//	testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
 	qms=new QMS_Dashboard(driver);
 	sca= new SCA_Dashboard_QMS(driver);
 	checklist = new Checklist_Control_Plan_SCA_Dashboard_QMS(driver);

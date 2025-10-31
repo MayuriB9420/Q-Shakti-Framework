@@ -10,11 +10,7 @@ public class Login_QMS_Page extends BasePage {
 	
 	public Login_QMS_Page(WebDriver driver) {
 		super(driver);
-		// TODO Auto-generated constructor stub
 	}
-
-	private WebDriverWait wait;
- 
  
  @FindBy(id="email")
  WebElement email;
@@ -45,9 +41,3 @@ public class Login_QMS_Page extends BasePage {
 }
  
 }
- 
- 
-
-
-
-

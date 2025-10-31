@@ -15,10 +15,10 @@ public class MDM_Machine_Master_QMS extends BasePage {
 	@FindBy(xpath = "//div[@class='MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-c4sutr']//button[@type='button'][normalize-space()='Add New']")
 	WebElement addNewButton;
 	
-	@FindBy(xpath = "//button[@id='upload-btn-1']")
+	@FindBy(xpath = "//button[@id='upload-btn-2']")
 	WebElement uploadFile;
 	
-	@FindBy(xpath = "//button[@id='download-template-btn-0']")
+	@FindBy(xpath = "//button[@id='download-template-btn-2']")
 	WebElement downloadTemplate;
 	
 	

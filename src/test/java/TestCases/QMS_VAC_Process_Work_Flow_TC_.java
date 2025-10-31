@@ -25,8 +25,7 @@ public class QMS_VAC_Process_Work_Flow_TC_ extends BaseClassQMS{
     @Test
     public void process_work_flow() throws Exception {
         logger.info("********** Starting QMS_VAC_Process_Work_Flow_TC **********");
-       
-        testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
+//        testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
         QMS_Dashboard qms = new QMS_Dashboard(driver);
         VAC_Dashboard_QMS vac = new VAC_Dashboard_QMS(driver);
         Checklist_Control_Plan_VAC_Dashboard_QMS checklist = new Checklist_Control_Plan_VAC_Dashboard_QMS(driver);

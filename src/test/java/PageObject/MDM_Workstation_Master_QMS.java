@@ -13,10 +13,10 @@ public class MDM_Workstation_Master_QMS extends BasePage {
 	@FindBy(xpath = "//div[@class='MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-c4sutr']//button[@type='button'][normalize-space()='Add New']")
 	WebElement addNewButton;
 	
-	@FindBy(xpath = "//button[@id='upload-btn-1']")
+	@FindBy(xpath = "//button[@id='upload-btn-7']")
 	WebElement uploadFile;
 	
-	@FindBy(xpath = "//button[@id='download-template-btn-0']")
+	@FindBy(xpath = "//button[@id='download-template-btn-7']")
 	WebElement downloadTemplate;
 	
 	@FindBy(xpath = "")

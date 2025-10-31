@@ -14,7 +14,7 @@ import testBase.BaseClassQMS;
 public class QMS_VAC_Checklist_Control_Plan_TC extends BaseClassQMS{
 	@Test
 	public void checklist_control_plan() throws Exception {
-		testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
+//		testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
 	    QMS_Dashboard qms = new QMS_Dashboard(driver);
 	    VAC_Dashboard_QMS vac = new VAC_Dashboard_QMS(driver);
 	    Checklist_Control_Plan_VAC_Dashboard_QMS checklist = new Checklist_Control_Plan_VAC_Dashboard_QMS(driver);

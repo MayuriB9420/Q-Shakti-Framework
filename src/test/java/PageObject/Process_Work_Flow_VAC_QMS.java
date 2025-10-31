@@ -111,9 +111,6 @@ public class Process_Work_Flow_VAC_QMS extends BasePage{
         return By.xpath("//tbody/tr[" + getXPathRowIndex(rowIndex) + "]/td[9]/div/button[@id='add-subprocess-button']");
     }
     
-    /**
-     * Helper to get the row element based on index for waiting purposes.
-     */
     private By getRowElement(int rowIndex) {
         return By.xpath("//tbody/tr[" + getXPathRowIndex(rowIndex) + "]");
     }
@@ -183,16 +180,6 @@ public class Process_Work_Flow_VAC_QMS extends BasePage{
 		element.sendKeys(parameter);
 	}
 	
-//    public void enterCycleTime(int rowIndex, String cycleTime) {
-//        // Wait for the row to exist before interacting with any element in it
-//        waitForRowToExist(rowIndex);
-//        // Clean input to remove " mins" or similar text
-//        String cleanedCycleTime = cycleTime.replaceAll("[^0-9]", "");
-//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(getCycleTimeInput(rowIndex)));
-//        element.sendKeys(cleanedCycleTime); 
-//    }
-    
-	
 	public void enterCycleTime(int rowIndex, String cycleTime) {
 	    waitForRowToExist(rowIndex); 
 	    WebElement element = wait.until(ExpectedConditions.elementToBeClickable(getCycleTimeInput(rowIndex)));
@@ -235,12 +222,9 @@ public class Process_Work_Flow_VAC_QMS extends BasePage{
 
             } catch (Exception e) {
                 attempt++;
-//                logger.warn("Failure on attempt " + attempt + " to click Add Process/wait for new row. Reason: " + e.getMessage());
                 if (attempt < maxRetries) {
-                    // Wait briefly before the next retry
-                    try { Thread.sleep(500); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+                     try { Thread.sleep(500); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
                 } else {
-//                    logger.error("Failed to click 'Add Process' and locate the new row after " + maxRetries + " attempts. Final Error: " + e.getMessage());
                     throw e; // Re-throw the final exception
                 }
             }
