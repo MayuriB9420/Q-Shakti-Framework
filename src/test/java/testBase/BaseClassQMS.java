@@ -20,8 +20,8 @@
 
 	import com.aventstack.extentreports.ExtentTest;
 	import PageObject.LoginPage;
-import PageObject.Login_QMS_Page;
-import Utilities.ExtentReportManager;
+	import PageObject.Login_QMS_Page;
+	import Utilities.ExtentReportManager;
 
 	public class BaseClassQMS {
 
@@ -77,7 +77,7 @@ import Utilities.ExtentReportManager;
 	        logger.info("========== Application Launched: " + appURL + " ==========");
 	        
 	        testLoginFunctionality(p.getProperty("emailqms"), p.getProperty("pwdqms"));
-	        logger.info("✅ Successfully logged in to QMS");
+	        logger.info("Successfully logged in to QMS");
 	        
 	        ExtentTest test = ExtentReportManager.getExtentReports().createTest(method.getName());
 	        ExtentReportManager.setTest(test);
@@ -85,9 +85,7 @@ import Utilities.ExtentReportManager;
 	    }
 
 	    public void testLoginFunctionality(String username, String password) throws Exception {
-                LoginPage lp = new LoginPage(driver);
-
-                // Enter username & password from properties
+	    	Login_QMS_Page lp = new Login_QMS_Page(driver);
                 lp.setUsername(p.getProperty("emailqms"));
                 lp.setPassword(p.getProperty("pwdqms"));
                 Thread.sleep(1500);
