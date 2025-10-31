@@ -172,33 +172,33 @@ public class DataProviders {
 //            return data;
 //        }
     
-    public class ChecklistData {
-        private final String characteristic;
-        private final String type;
-        private final String lsl;
-        private final String usl;
-        private final String frequency;
-        private final String sampleSize;
-        private final boolean isCtq;
-
-        public ChecklistData(String characteristic, String type, String lsl, String usl, String frequency, String sampleSize, boolean isCtq) {
-            this.characteristic = characteristic;
-            this.type = type;
-            this.lsl = lsl;
-            this.usl = usl;
-            this.frequency = frequency;
-            this.sampleSize = sampleSize;
-            this.isCtq = isCtq;
-        }
-
-        // Getters
-        public String getCharacteristic() { return characteristic; }
-        public String getType() { return type; }
-        public String getLsl() { return lsl; }
-        public String getUsl() { return usl; }
-        public String getFrequency() { return frequency; }
-        public String getSampleSize() { return sampleSize; }
-        public boolean isCtq() { return isCtq; }
-    }
+//    public class ChecklistData {
+//        private final String characteristic;
+//        private final String type;
+//        private final String lsl;
+//        private final String usl;
+//        private final String frequency;
+//        private final String sampleSize;
+//        private final boolean isCtq;
+//
+//        public ChecklistData(String characteristic, String type, String lsl, String usl, String frequency, String sampleSize, boolean isCtq) {
+//            this.characteristic = characteristic;
+//            this.type = type;
+//            this.lsl = lsl;
+//            this.usl = usl;
+//            this.frequency = frequency;
+//            this.sampleSize = sampleSize;
+//            this.isCtq = isCtq;
+//        }
+//
+//        // Getters
+//        public String getCharacteristic() { return characteristic; }
+//        public String getType() { return type; }
+//        public String getLsl() { return lsl; }
+//        public String getUsl() { return usl; }
+//        public String getFrequency() { return frequency; }
+//        public String getSampleSize() { return sampleSize; }
+//        public boolean isCtq() { return isCtq; }
+//    }
     
     }
